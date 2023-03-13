@@ -8,5 +8,6 @@ public interface RepositoryStudent {
 	Iterable<Student> listAll();
 	void deleteAll();
 	void delete1(Integer id);
-
+	Student update(int id,String fct);
+	Student getStudent(int id);
 }
