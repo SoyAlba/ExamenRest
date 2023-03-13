@@ -1,9 +1,10 @@
 package com.example.demo.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,59 +16,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.repository.ListRepositoryStudent;
 import com.example.demo.model.Student;
 
 @RestController
-@RequestMapping("/api/")
-public class StudentRestController {
-	List<Student> list = new ArrayList<>();
-	Logger l = org.apache.logging.log4j.LogManager.getLogger(IndexController.class);
+@RequestMapping(path = "/api")
+public class StudentRestController{
 
-	@GetMapping
-	@RequestMapping(value = "/info", produces = MediaType.TEXT_XML_VALUE)
-	public ResponseEntity<Student> showInfo() {
-		Student s = new Student(0, null, false);
-		s.setId(1);
-		s.setName("Pepe");
-		s.setFCT(true);
-		return new ResponseEntity<>(s, HttpStatus.OK);
+    List<Student> list = new ArrayList<>();
+    ListRepositoryStudent listRepositoryStudent = new ListRepositoryStudent();
+
+    @PostMapping(path = "/ALUMNOS/LIST")
+    public List<Student> listAll() {
+        return listRepositoryStudent.listAll();
 	}
 
-	@PostMapping
-	@RequestMapping(value = "/save")
-	public ResponseEntity<List<Student>> saveStudent(@RequestBody Student student) {
-		list.add(student);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+    @PostMapping(path = "/ALUMNOS/INSERT")
+    public Student insert(@RequestBody Student student) {
+		student = new Student(1,"pikachu","si");
+        listRepositoryStudent.insert(student);
+		return student;
+    }
 
-	@GetMapping
-	@RequestMapping(value = "/deleteAll")
-	public ResponseEntity<List<Student>> deleteAll() {
-		list.clear();
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+    @GetMapping(path = "/ALUMNOS/DELETE/{id}")
+    public Student delete(@PathVariable Integer id) {
+		Student student = listRepositoryStudent.getStudent(id);
+        listRepositoryStudent.delete1(id);
+		return student;
+    }
 
-	@GetMapping(path = "/delete1")
-	public ResponseEntity<List<Student>> delete1(@RequestParam Integer id) {
-		l.info("delete1:" + id);
-		// list.remove(id.intValue() - 1);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+    @GetMapping(path = "/ALUMNOS/UPDATE/{id}/")
+    public Student update(@PathVariable Integer id, @RequestParam String fct) {
+        Student student = listRepositoryStudent.getStudent(id);
+        listRepositoryStudent.update(id, fct);
+        return student;
+    }
 
-	@GetMapping("/delete2/{nombre}/{savePlace}")
-	public ResponseEntity<List<Student>> delete2(@PathVariable String nombre, @PathVariable String savePlace) {
-		l.info("Borrando a: " + nombre);
-		boolean removeIf = list.removeIf((s) -> s.getName().equals(nombre));
-		if (savePlace.equals("log")) {
-			l.info(l);
-		} else {
-			System.out.println(l);
-		}
-
-		// list.remove(id.intValue() - 1);
-		if (removeIf)
-			return new ResponseEntity<>(list, HttpStatus.OK);
-		return new ResponseEntity<>(list, HttpStatus.NOT_FOUND);
-	}
+    @GetMapping(path = "/ALUMNOS/DELETEALL")
+    public List<Student> deleteAll() {
+        listRepositoryStudent.deleteAll();
+        return listRepositoryStudent.listAll();
+    }
 
 }
+
+
+

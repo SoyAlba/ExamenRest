@@ -12,12 +12,12 @@ public class ListRepositoryStudent implements RepositoryStudent {
 
 	static List<Student> ListaAlunos = new ArrayList<Student>();
 	
-	void init() {
-		ListaAlunos.add(new Student(1, "Juan", true));
-		ListaAlunos.add(new Student(2, "Pedro", true));
-		ListaAlunos.add(new Student(3, "Maria", false));
-		ListaAlunos.add(new Student(4, "Jose", true));
-		ListaAlunos.add(new Student(5, "Luis", false));
+	void init(){
+		ListaAlunos.add(new Student(1, "Juan", "no"));
+		ListaAlunos.add(new Student(2, "Pedro", "si"));
+		ListaAlunos.add(new Student(3, "Maria", "no"));
+		ListaAlunos.add(new Student(4, "Jose", "si"));
+		ListaAlunos.add(new Student(5, "Luis", "no"));
 	}
 
 	@Override
@@ -34,6 +34,7 @@ public class ListRepositoryStudent implements RepositoryStudent {
 	}
 	@Override
 	public List<Student> listAll() {
+		init();
 		return ListaAlunos;
 	}
 
@@ -45,6 +46,17 @@ public class ListRepositoryStudent implements RepositoryStudent {
 	@Override
 	public void delete1(Integer id) {
 		ListaAlunos.remove(id.intValue() - 1);
+	}
+
+	@Override
+	public Student update(int id,String fct) {
+		ListaAlunos.get(id).setFCT(fct);
+		return ListaAlunos.get(id);
+	}
+
+	@Override
+	public Student getStudent(int id) {
+		return ListaAlunos.get(id);
 	}
 
 }

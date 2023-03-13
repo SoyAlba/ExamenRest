@@ -4,9 +4,9 @@ public class Student {
 
 	private int id;
 	private String name;
-	private boolean FCT;
+	private String FCT;
 
-	public Student(int id, String name, boolean FCT) {
+	public Student(int id, String name, String FCT) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -25,10 +25,10 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public boolean isFCT() {
+	public String isFCT() {
 		return FCT;
 	}
-	public void setFCT(Boolean fCT) {
+	public void setFCT(String fCT) {
 		FCT = fCT;
 	}
 
