@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.demo.repository.ListRepositoryStudent;
 import com.example.demo.model.Student;
 
 @RestController
 @RequestMapping(path = "/api")
-public class StudentRestController{
+public class StudentRestController extends ResponseEntityExceptionHandler{ 
 
     List<Student> list = new ArrayList<>();
     ListRepositoryStudent listRepositoryStudent = new ListRepositoryStudent();
@@ -46,10 +47,13 @@ public class StudentRestController{
     }
 
     @GetMapping(path = "/ALUMNOS/UPDATE/{id}/")
-    public Student update(@PathVariable Integer id, @RequestParam String fct) {
+    public ResponseEntity<Student> update(@PathVariable Integer id, @RequestParam String fct) {
         Student student = listRepositoryStudent.getStudent(id);
         listRepositoryStudent.update(id, fct);
-        return student;
+        if (id == 0 || fct == null) {
+            return new ResponseEntity<Student>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Student>(student, HttpStatus.ACCEPTED);
     }
 
     @GetMapping(path = "/ALUMNOS/DELETEALL")

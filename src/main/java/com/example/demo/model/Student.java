@@ -25,7 +25,7 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String isFCT() {
+	public String getFCT() {
 		return FCT;
 	}
 	public void setFCT(String fCT) {

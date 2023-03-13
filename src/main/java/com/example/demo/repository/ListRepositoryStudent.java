@@ -23,14 +23,6 @@ public class ListRepositoryStudent implements RepositoryStudent {
 	@Override
 	public void insert(Student student) {
 		ListaAlunos.add(student);
-
-		for (Student s : ListaAlunos) {
-			System.out.println(s);
-		}
-
-		ListaAlunos.forEach(System.out::println);
-
-		ListaAlunos.forEach((s) -> System.out.println(s));
 	}
 	@Override
 	public List<Student> listAll() {
